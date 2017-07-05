@@ -1,0 +1,22 @@
+version: 1.0.{build}
+os: Visual Studio 2015
+
+install:
+  - git submodule update --init --recursive --depth 1
+
+# before_build:
+#   - appveyor DownloadFile https://raw.githubusercontent.com/appveyor/ci/master/scripts/nuget-restore.cmd
+#   - nuget-restore
+
+build_script:
+  - curl -o sonar-scanner-msbuild-3.0.0.629.zip https://github.com/SonarSource/sonar-scanner-msbuild/releases/download/3.0.0.629/sonar-scanner-msbuild-3.0.0.629.zip  
+  - mvn install:install-file -DgroupId=org.sonarsource.dotnet -DartifactId=SonarQube.MSBuild.Runner.Implementation -Dversion=6.1.0.2359 -Dpackaging=zip -Dfile=sonar-scanner-msbuild-3.0.0.629.zip
+  - mvn clean install -P download-analyzer -D analyzer.version=6.1.0.2359
+  - cp C:\Users\appveyor\.m2\repository\org\sonarsource\dotnet\sonar-csharp-plugin\6.2-SNAPSHOT\sonar-csharp-plugin-6.2-SNAPSHOT.jar sonar-csharp-plugin-6.2-SNAPSHOT.jar
+
+artifacts:
+  - path: sonar-csharp-plugin-6.2-SNAPSHOT.jar
+    name: SonarCSharp62
+
+test: none
+after_test: none

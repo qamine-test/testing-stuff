@@ -199,9 +199,8 @@
                     <!-- ITs requires the SonarAnalyzer-VERSION.zip to be present so don't remove these lines -->
                     <copy todir="${sonarAnalyzer.workDirectory}/SonarAnalyzer.CSharp">
                       <fileset dir="${project.build.directory}/../../sonaranalyzer-dotnet/src/SonarAnalyzer.Vsix/bin/${analyzer.configuration}/">
-                        <include name="SonarAnalyzer.dll"/>
-                        <include name="SonarAnalyzer.CSharp.dll"/>
-                        <include name="Google.Protobuf.dll"/>
+                        <include name="*.exe"/>
+                        <include name="*.dll"/>
                       </fileset>
                     </copy>
                     <zip destfile="${sonarAnalyzer.workDirectory}/static/SonarAnalyzer-${project.version}.zip"
